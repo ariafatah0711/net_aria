@@ -87,6 +87,7 @@ is_installed() {
 
 update_installed_cache() {
     mkdir -p "$WORK_DIR"
+    mkdir -p "$(dirname "$INSTALLED_CACHE")"
     : > "$INSTALLED_CACHE"
     if [ -d "$QEMU_DIR" ]; then
         for dir in "$QEMU_DIR"/mikrotik-*; do
@@ -128,6 +129,7 @@ list_chr_img_links() {
 update_chr_list() {
     echo "[INFO] Update daftar CHR dari arsip..."
     mkdir -p "$WORK_DIR"
+    mkdir -p "$(dirname "$LIST_CACHE")"
     : > "$LIST_CACHE"
 
     local versions

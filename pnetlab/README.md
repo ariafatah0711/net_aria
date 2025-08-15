@@ -39,7 +39,24 @@ scp router.img root@<ip>/opt/unetlab/addons/qemu/<nama>
 ### by aria
 ```bash
 # wget -O - https://raw.githubusercontent.com/ariafatah0711/net_aria/refs/heads/main/pnetlab/setup.sh | bash
-wget -o https://raw.githubusercontent.com/ariafatah0711/net_aria/refs/heads/main/pnetlab/mikrotik.sh /usr/bin/mikrotik
+wget -O /usr/bin/mikrotik https://raw.githubusercontent.com/ariafatah0711/net_aria/refs/heads/main/pnetlab/mikrotik.sh && chmod +x /usr/bin/mikrotik
+```
+
+```bash
+Usage: /usr/bin/mikrotik <command> [options]
+\nCommands:
+  list                 Tampilkan daftar versi dengan nomor dan status instalasi
+  update               Update/refresh semua data dari arsip
+  install <target>     Instal CHR (target: URL atau nomor dari list)
+  remove <target>      Hapus CHR (target: nomor dari list atau versi)
+  help                 Tampilkan bantuan
+\nExamples:
+  /usr/bin/mikrotik list
+  /usr/bin/mikrotik update
+  /usr/bin/mikrotik install 1
+  /usr/bin/mikrotik install https://download.mikrotik.com/routeros/7.19.4/chr-7.19.4.img.zip
+  /usr/bin/mikrotik remove 1
+  /usr/bin/mikrotik remove 7.17
 ```
 
 ### by ishare 2
