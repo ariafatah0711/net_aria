@@ -2,12 +2,24 @@
 
 set -euo pipefail
 
-# Konfigurasi default
-QEMU_DIR="/opt/unetlab/addons/qemu"
-DOWNLOAD_BASE="https://download.mikrotik.com/routeros"
-WORK_DIR="/tmp/router/mikrotik"
-LIST_CACHE="/opt/router/mikrotik_list.txt"
-INSTALLED_CACHE="/opt/router/mikrotik_install.txt"
+# Konfigurasi default - lebih dinamis
+QEMU_DIR="${QEMU_DIR:-/opt/unetlab/addons/qemu}"
+DOWNLOAD_BASE="${DOWNLOAD_BASE:-https://download.mikrotik.com/routeros}"
+WORK_DIR="${WORK_DIR:-/tmp/router/mikrotik}"
+CACHE_DIR="${CACHE_DIR:-/opt/router}"
+LIST_CACHE="${LIST_CACHE:-$CACHE_DIR/mikrotik_list.txt}"
+INSTALLED_CACHE="${INSTALLED_CACHE:-$CACHE_DIR/mikrotik_install.txt}"
+
+# Fungsi untuk memastikan direktori cache ada
+ensure_cache_dir() {
+    mkdir -p "$CACHE_DIR" 2>/dev/null || {
+        echo "[WARNING] Tidak bisa membuat $CACHE_DIR, menggunakan /tmp"
+        CACHE_DIR="/tmp/mikrotik_cache"
+        LIST_CACHE="$CACHE_DIR/mikrotik_list.txt"
+        INSTALLED_CACHE="$CACHE_DIR/mikrotik_install.txt"
+        mkdir -p "$CACHE_DIR"
+    }
+}
 
 print_usage() {
     echo "Usage: $0 <command> [options]"
@@ -24,6 +36,10 @@ print_usage() {
     echo "  $0 install https://download.mikrotik.com/routeros/7.19.4/chr-7.19.4.img.zip"
     echo "  $0 remove 1"
     echo "  $0 remove 7.17"
+    echo "\nEnvironment variables:"
+    echo "  QEMU_DIR            Directory untuk QEMU images (default: /opt/unetlab/addons/qemu)"
+    echo "  CACHE_DIR           Directory untuk cache (default: /opt/router)"
+    echo "  WORK_DIR            Directory untuk temporary files (default: /tmp/router/mikrotik)"
 }
 
 have_cmd() {
@@ -86,8 +102,8 @@ is_installed() {
 }
 
 update_installed_cache() {
+    ensure_cache_dir
     mkdir -p "$WORK_DIR"
-    mkdir -p "$(dirname "$INSTALLED_CACHE")"
     : > "$INSTALLED_CACHE"
     if [ -d "$QEMU_DIR" ]; then
         for dir in "$QEMU_DIR"/mikrotik-*; do
@@ -101,6 +117,7 @@ update_installed_cache() {
 }
 
 list_chr_img_links() {
+    ensure_cache_dir
     mkdir -p "$WORK_DIR"
     update_installed_cache
 
@@ -128,8 +145,8 @@ list_chr_img_links() {
 
 update_chr_list() {
     echo "[INFO] Update daftar CHR dari arsip..."
+    ensure_cache_dir
     mkdir -p "$WORK_DIR"
-    mkdir -p "$(dirname "$LIST_CACHE")"
     : > "$LIST_CACHE"
 
     local versions
