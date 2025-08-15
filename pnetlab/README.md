@@ -19,6 +19,7 @@ comming soon
 # append os / router
 ## manual
 ### os
+- [all_image](https://drive.labhub.eu.org/)
 - [pnet image](https://drive.google.com/drive/folders/1BzWFVzaCqOXvyFTVFMiKQAVKng-EtC-o?usp=sharing)
 - [pnetlab add mikrotik](https://gratisfreeware.wordpress.com/2025/01/06/menambahkan-mikrotik-ke-pnet-lab/)
 
@@ -38,25 +39,15 @@ scp router.img root@<ip>/opt/unetlab/addons/qemu/<nama>
 
 ### by aria
 ```bash
+# mikrotik
 # wget -O - https://raw.githubusercontent.com/ariafatah0711/net_aria/refs/heads/main/pnetlab/setup.sh | bash
 wget -O /usr/bin/mikrotik https://raw.githubusercontent.com/ariafatah0711/net_aria/refs/heads/main/pnetlab/mikrotik.sh && chmod +x /usr/bin/mikrotik
 ```
 
 ```bash
-Usage: /usr/bin/mikrotik <command> [options]
-\nCommands:
-  list                 Tampilkan daftar versi dengan nomor dan status instalasi
-  update               Update/refresh semua data dari arsip
-  install <target>     Instal CHR (target: URL atau nomor dari list)
-  remove <target>      Hapus CHR (target: nomor dari list atau versi)
-  help                 Tampilkan bantuan
-\nExamples:
-  /usr/bin/mikrotik list
-  /usr/bin/mikrotik update
-  /usr/bin/mikrotik install 1
-  /usr/bin/mikrotik install https://download.mikrotik.com/routeros/7.19.4/chr-7.19.4.img.zip
-  /usr/bin/mikrotik remove 1
-  /usr/bin/mikrotik remove 7.17
+# ishare2
+
+wget -O - /usr/bin/mikrotik https://raw.githubusercontent.com/ariafatah0711/net_aria/refs/heads/main/pnetlab/ishare2.sh | bash
 ```
 
 ### by ishare 2
@@ -95,6 +86,16 @@ ishare2 installed bin
 ishare2 installed qemu
 ishare2 installed dynamips
 ishare2 installed docker
+```
+
+###by ishare2 GUI
+```bash
+ishare2 gui download
+ishare2 gui start
+# Once finished, go to: http://localhost:5000, http://127.0.0.1:5000 or http://pnetlab_ip_address:5000
+
+ishare2 gui stop
+ishare2 gui restart
 ```
 
 ## tutorial
